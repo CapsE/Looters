@@ -1,0 +1,32 @@
+
+var offset = 100;
+        
+for(var x = 0; x < 15; x++){
+    for(var y = 0; y < 15; y++){
+        var top;
+        var left;
+        if (x % 2 == 0) {
+            top = (y * 104 + offset).toString() + "px";
+        } else {
+            top = (y * 104 - 50 + offset).toString() + "px";
+        }
+        left = (x * 90 + offset).toString() + "px";
+        
+        var nd = {
+            "domType":"img",
+            "attr":{".src":"/Fields/field.png",
+                    ".style.cursor":"pointer",
+                    ".style.width":100,
+                    ".style.height":100
+                   },
+            "domAttr":{
+                ".style.position":"absolute",
+                ".style.top": top,
+                ".style.left": left,
+            }
+        };
+        CreateDom(nd);
+        Sync(nd);
+        
+    }
+}

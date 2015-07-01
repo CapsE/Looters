@@ -1,0 +1,33 @@
+var kd = function(e){
+    if(e.keyCode == 13){
+        var s = user + ": " + document.getElementById("chatInput").value;
+        document.getElementById("chatInput").value = "";
+        var ct = document.getElementById("chatText")
+        ct.innerHTML += s + "<br/>";
+        var hash = {"id":"chatText", "f":"update", "domAttr":{".innerHTML":ct.innerHTML}};
+        connection.send(JSON.stringify(hash));
+    }
+}
+
+var chatHolder = {
+    "id":getId(),
+    "domType":"div",
+    "attr":{
+
+            ".style.background":"white",
+            ".innerHTML":"<div id='chatText' style='width:100%; height:90%'>Chat ready...<br/></div><br/>" +
+                "<input id='chatInput' type='text' style='width:100%; position:relative; bottom:0px;'></input>"         
+               
+           },
+    "domAttr":{
+            ".style.width":"10%",
+            ".style.height":200,
+            ".style.zIndex":200,
+            ".style.position":"relative",
+            ".style.display":"block",
+            ".style.left":"89%",
+    },
+    "domFunc":{".onkeyup":kd }};
+
+CreateDom(chatHolder);
+Sync(chatHolder);

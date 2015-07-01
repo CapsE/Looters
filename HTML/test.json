@@ -1,0 +1,16 @@
+var oc = function(){
+    console.debug("Clicked");
+}
+var newDom = {
+    "domType":"img",
+    "attr":{".src":"http://vignette1.wikia.nocookie.net/battleforge/images/2/2a/Honor_Token.png/revision/latest?cb=20121121184922",
+            ".style.cursor":"move",
+            ".draggable":true,
+            ".style.width":100,
+            ".style.height":100
+           },
+    "domAttr":{
+        ".style.zIndex":100
+    },
+    "domFunc":{".onclick":oc, ".ondragstart":drag}};
+Sync(newDom);

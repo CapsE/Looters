@@ -1,0 +1,24 @@
+.control{
+     display:inline-block;
+}
+
+
+.control_edit:hover{
+    border:solid;
+    border-width:1px;
+    border-color:grey;
+}
+
+.control_button{
+    width:48px;
+    height:48px;
+    z-index:2000;
+    display:none;
+    float:right;
+    cursor:pointer;
+}
+
+.control_edit:hover > img{
+    display:block;
+}
+
