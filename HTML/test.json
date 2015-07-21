@@ -12,5 +12,6 @@ var newDom = {
     "domAttr":{
         ".style.zIndex":100
     },
-    "domFunc":{".onclick":oc, ".ondragstart":drag}};
+    "domFunc":{".onclick":oc, ".ondragstart":drag}
+};
 Sync(newDom);

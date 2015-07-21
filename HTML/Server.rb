@@ -111,3 +111,7 @@ post "/upload" do
     end
   return {"f" => "upload", "state" => "complete"}.to_json
 end
+
+get "/docs/*.html" do
+     
+end
