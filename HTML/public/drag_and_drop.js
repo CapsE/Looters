@@ -30,6 +30,6 @@ function drop(ev) {
     dom.style.left = left;
     dom.style.top = top;
    
-    var hash = {"f": "update", "id": data, "domAttr":{".style.left":left, ".style.top":top, ".style.position":"absolute"}};
+    var hash = {"f": "update", "id": data, "attr":{".style.left":left, ".style.top":top, ".style.position":"absolute"}};
     connection.send(JSON.stringify(hash));
 }

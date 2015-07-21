@@ -7,6 +7,7 @@
         <script src="drag_and_drop.js"></script>
         <script src="key_events.js"></script>
         <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="stylesheet" href="QUnit/qunit-1.18.0.css">
     </head>
     <body onload="init()" onkeydown="keyDown(event)" onkeyup="keyUp(event)">
         <div id="main" ondrop="drop(event)" ondragover="allowDrop(event)" style="width:100%; height:100%;background:#EEEEFF;z-index:-1000;"></div>
@@ -20,5 +21,12 @@
                 <Button onclick="login()">LogIn</Button>
             </div>
         </div>
+        <% if @test %>
+            <div id="qunit"></div>
+            <div id="qunit-fixture"></div>
+
+            <script src="QUnit/qunit-1.18.0.js"></script>
+            <script src="QUnit/tests.js"></script>
+        <% end %>
     </body>
 </html>

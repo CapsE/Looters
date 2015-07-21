@@ -19,8 +19,11 @@ var connection;
 function init() {    
     //document.getElementById("main").addEventListener("drop", FileSelectHandler, false);
    
-    
-    connection = new WebSocket('ws:' + self.location.hostname + ':4242');
+    var address = self.location.hostname;
+    if(!address){
+        address = "127.0.0.1";
+    }
+    connection = new WebSocket('ws:' + address + ':4242');
 
     // When the connection is open, send some data to the server
     connection.onopen = function () {
@@ -132,6 +135,7 @@ function CreateDom(msg){
     }
     
     control.appendChild(newDom);
+    //Get an ID if none is given
     if(msg["id"]){
         control.id = msg["id"];
         newDom.id = msg["id"] + "_main";
@@ -139,10 +143,34 @@ function CreateDom(msg){
         control.id = getId();
         newDom.id = control.id + "_main";
     }
+    
+    //Create Control by Default
+    if(msg["control"] != false){
+        msg["control"] = true;
+    }
+    
     if(msg["parent"]){
-        document.getElementById(msg["parent"]).appendChild(control);
+        console.debug("Partent: " + msg["parent"]);
+        if(msg["control"]){
+            document.getElementById(msg["parent"]).appendChild(control);
+        }else{
+            document.getElementById(msg["parent"]).appendChild(newDom);
+        }
     }else{
-        document.getElementById("main").appendChild(control);
+        if(msg["control"]){
+            document.getElementById("main").appendChild(control);
+        }else{
+            document.getElementById("main").appendChild(newDom);
+        }
+    }
+    
+    //Create Child-Objects
+    if(msg["children"]){
+        var children = msg["children"];
+        for(var i=0; i < children.length; i++){
+            children[i]["parent"] = newDom.id;
+            CreateDom(children[i]);
+        }
     }
     return control;
 }
@@ -151,8 +179,8 @@ function UpdateDom(msg){
     var newDom = document.getElementById(msg["id"]);
     
     //Set Attributes of the new Dom-Element
-    if(msg["domAttr"]){
-        var attr = msg["domAttr"];
+    if(msg["attr"]){
+        var attr = msg["attr"];
         var keys = Object.keys(attr);
         for(var i = 0; i < keys.length; i++){
             try{
@@ -174,6 +202,13 @@ function UpdateDom(msg){
             eval("var f = " + msg["domFunc"][funcs[i]]);
             var s = "newDom" + funcs[i] + " = f";
             eval(s);
+        }
+    }
+    
+    if(msg["children"]){
+        var children = msg["children"];
+        for(var i=0; i < children.length; i++){
+            UpdateDom(children[i]);
         }
     }
 }

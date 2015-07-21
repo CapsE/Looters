@@ -112,6 +112,7 @@ post "/upload" do
   return {"f" => "upload", "state" => "complete"}.to_json
 end
 
-get "/docs/*.html" do
-     
+get "/test" do
+    @test = true
+    erb :index
 end
