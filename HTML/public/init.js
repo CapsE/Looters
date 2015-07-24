@@ -219,15 +219,33 @@ function Sync(obj){
         obj["id"] = getId();
     }
     //Convert Functions to strings for transportation
+    /*if(obj["domFunc"]){
+        var funcs = Object.keys(obj["domFunc"]);
+        for(var i = 0;  i < funcs.length; i++){
+            obj["domFunc"][funcs[i]] = obj["domFunc"][funcs[i]].toString();
+        }
+    }
+    */
+    prepareFunctions(obj);
+
+    obj["f"] = "sync";
+    syncs[obj["id"]] = obj;
+    connection.send(JSON.stringify(obj));
+}
+
+//Convert Functions to strings for transportation
+function prepareFunctions(obj){
     if(obj["domFunc"]){
         var funcs = Object.keys(obj["domFunc"]);
         for(var i = 0;  i < funcs.length; i++){
             obj["domFunc"][funcs[i]] = obj["domFunc"][funcs[i]].toString();
         }
     }
-    obj["f"] = "sync";
-    syncs[obj["id"]] = obj;
-    connection.send(JSON.stringify(obj));
+    if(obj["children"]){
+        for(var i = 0; i < obj["children"].length; i++){
+            prepareFunctions(obj["children"][i]);
+        }
+    }
 }
 
 //Handle dropped Files
@@ -304,8 +322,13 @@ function controlDelete(){
 }
 
 //Get a new ID for syncing
+var lastId = 0;
 function getId(){
     var d = new Date().getTime();
+    if(d == lastId){
+        d+=1;
+    }
+    lastId = d;
     return d;
 }
 

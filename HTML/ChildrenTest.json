@@ -17,6 +17,7 @@ var token = {
 };
 
 var parent = {
+    "id":getId(),
     "domType":"div",
     "attr":{".style.backgroundColor":"blue",
            ".draggable":true},
@@ -25,4 +26,4 @@ var parent = {
 };
 
 CreateDom(parent);
-SyncDom(parent);
+Sync(parent);

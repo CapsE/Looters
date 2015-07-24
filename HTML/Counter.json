@@ -1,0 +1,40 @@
+var oc = function(e){
+    var hash = {"id":e.target.id, "f":"update", "attr":{".value":e.target.value}};
+    connection.send(JSON.stringify(hash));
+}
+var counter_caption = {
+    "id":getId().toString() + "_caption",
+    "domType":"input",
+    "attr":{
+            ".draggable":false,
+            ".style.width":200,
+            ".style.height":30
+           },
+    "domFunc":{".onchange":oc},
+    "control":false
+};
+
+var counter_value = {
+    "id":getId().toString() + "_value",
+    "domType":"input",
+    "attr":{
+            ".draggable":false,
+            ".style.width":200,
+            ".style.height":30
+           },
+    "domFunc":{".onchange":oc},
+    "control":false
+};
+
+var parent = {
+    "id":getId(),
+    "domType":"div",
+    "attr":{".style.backgroundColor":"blue",
+           ".draggable":true,
+           ".style.padding":"5px"},
+    "children":[counter_caption, counter_value],
+    "domFunc":{".ondragstart":drag}
+};
+
+CreateDom(parent);
+Sync(parent);

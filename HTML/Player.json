@@ -1,0 +1,19 @@
+var colors = ["red","blue","green","yellow","pink"];
+if(!playerCounter){
+    var playerCounter = 0;
+}else{
+    playerCounter++;
+}
+
+
+
+var player = {
+    "id":getId(),
+    "domType":"div",
+    "attr":{".style.backgroundColor":colors[playerCounter],
+           ".style.padding":"5px"},
+    "children":[COUNTER("Gold", 0), COUNTER("HP",null)],
+};
+MakeDraggable(player);
+CreateDom(player);
+Sync(player);
