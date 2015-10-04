@@ -23,7 +23,8 @@ function init() {
     if(!address){
         address = "127.0.0.1";
     }
-    connection = new WebSocket('ws:' + address + ':4242');
+    //connection = new WebSocket('ws:' + address + ':3000');
+    connection = io();
 
     // When the connection is open, send some data to the server
     connection.onopen = function () {
@@ -41,6 +42,11 @@ function init() {
         var json = JSON.parse(e.data);
         parse(json);
     };
+    
+    connection.on("sync", function(msg){
+        syncs[msg["id"]] = msg;
+        CreateDom(msg);
+    });
     
    checkUserCookie();
     
@@ -230,7 +236,8 @@ function Sync(obj){
 
     obj["f"] = "sync";
     syncs[obj["id"]] = obj;
-    connection.send(JSON.stringify(obj));
+    //connection.send(JSON.stringify(obj));
+    connection.emit("sync", JSON.stringify(obj));
 }
 
 //Convert Functions to strings for transportation

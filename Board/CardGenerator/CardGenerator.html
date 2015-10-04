@@ -1,0 +1,255 @@
+<html>
+    <body>
+        <div id="inputs" style="float:left;">
+            <input class="input" id="name"/ placeholder="name"><br/>
+            <img style="width:200px; height:200px;" ondragover="fileDraged(event)" ondrop="fileDropped(event)"></img><br/>
+            <input id="img" type="file" onchange="imagePicked(event)"/><br/>
+            <textarea class="input" id="text"/></textarea><br/>
+            <input class="input" id="text_size"/><br/>
+            <textarea class="input" id="comment"/></textarea><br/>
+            <input class="input" id="comment_size"/><br/>
+            <input class="input" id="value" placeholder="value"/><br/>
+            <input class="input" id="attack" placeholder="attack"/><br/>
+            <input class="input" id="armor" placeholder="armor"/><br/>
+            <button onclick="make()">Make</button>
+            <button onclick="save()">Save</button>
+        </div>
+        <div id="card">
+            <img id="background"/>
+            <div id="top">
+                <div id="card_name"></div>
+                <img id="card_img"/>
+            </div>
+            <div id="spacer"></div>
+            <div id="center">
+                <div id="card_text"></div>
+                <br/>
+                <div id="card_comment"></div>
+            </div>
+            
+            <div id="bottom">
+                <div id="card_value"></div>
+                <div id="card_attack">
+                    <img src="Sword.png"/>
+                    <div id="card_attack_text"></div>
+                </div>
+                <div id="card_armor">
+                    <img src="Shield.png"/>
+                    <div id="card_armor_text"></div>
+                </div>
+            </div>
+            
+        </div>
+    </body>
+    <script>
+        function make(){
+            var inName = document.getElementById("name").value;
+            var inImg = document.getElementById("img").value;
+            var inText = document.getElementById("text").value;
+            var inComment = document.getElementById("comment").value;
+            var inValue = document.getElementById("value").value;
+            var inAttack = document.getElementById("attack").value;
+            var inArmor = document.getElementById("armor").value;
+            
+            document.getElementById("card_name").innerHTML = inName;
+            document.getElementById("card_text").innerHTML = inText;
+            document.getElementById("card_text").style.fontSize = document.getElementById("text_size").value + "em";
+            document.getElementById("card_comment").innerHTML = inComment;
+            document.getElementById("card_comment").style.fontSize = document.getElementById("comment_size").value + "em";
+            document.getElementById("card_value").innerHTML = inValue;
+            document.getElementById("card_attack_text").innerHTML = inAttack;
+            if(inAttack != ""){
+                document.getElementById("card_attack").style.display = "block";
+            }else{
+                document.getElementById("card_attack").style.display = "none";
+            }
+            
+            
+            document.getElementById("card_armor_text").innerHTML = inArmor;
+            if(inArmor != ""){
+                document.getElementById("card_armor").style.display = "block";
+            }else{
+                document.getElementById("card_armor").style.display = "none";
+            }
+        }
+        
+        function save(){
+            var str = "{";
+            var inputs = document.getElementsByClassName("input");
+            for(var i in inputs){
+                if(inputs[i].value){
+                    var value = inputs[i].value.replace(/"/g, '\\"');
+                }else{
+                    var value = "";
+                }
+                str += "\"" + inputs[i].id + "\":\"" + value + "\",\n";
+            }
+            str = str.substring(0, str.length - 2);
+            str += "}";
+            uriContent = "data:application/octet-stream," + encodeURIComponent(str);
+            newWindow = window.open(uriContent, 'NewCard.json');
+        }
+        
+        function imagePicked(e){
+
+            var tmppath = URL.createObjectURL(event.target.files[0]);
+            document.getElementById("card_img").src = URL.createObjectURL(event.target.files[0]);
+
+        }
+        
+        function fileDropped(e){
+            e.preventDefault();
+            console.debug("Dropped");
+            var files = e.dataTransfer.files;
+            // files is a FileList of File objects. List some properties.
+            var reader = new FileReader();
+
+            // Closure to capture the file information.
+            reader.onload = function(e) {
+                console.debug(e.target.result);
+                var hash = JSON.parse(e.target.result);
+                for(var i in hash){
+                    document.getElementById(i).value = hash[i];
+                }
+				make();
+            };
+
+            // Read in the image file as a data URL.
+            reader.readAsText(files[0]);        
+        }
+        
+        function fileDraged(e){
+            e.stopPropagation();
+            e.preventDefault();
+
+            console.debug("Ready to drop");
+        }
+    </script>
+
+    <style>
+        @font-face {
+            font-family: HSFont;
+            src: url(OPTIBelwe-Medium.otf);
+        }
+        
+        html{
+            font-size:2em;
+            font-family: HSFont;
+        }
+        
+        #card{
+            padding:20px;
+            padding-left:40px;
+            padding-right:40px;
+            border:solid;
+			border-radius:8px;
+            width:460px;
+            height:700px;
+            position:absolute;
+            left:50%;
+			background-image:url("Background.png");
+			background-size:cover;
+        }
+        
+        #top{
+            text-align:center;
+        }
+        
+        #center{
+            background-color:white;
+			height:240px;
+			overflow:hidden;
+        }
+        
+        #card_name{
+            font-size:1.5em;
+            background-color:#DFDEE6;
+			margin-left:-40px;
+			margin-right:-40px;
+			border-bottom:solid;
+			border-top:solid;
+			border-color:#938876;
+        }
+        
+        #card_img{
+            width:300px;
+            height:300px;
+            display:inline-block;
+        }
+		
+		#spacer{
+			margin-top:5px;
+			background-color:black;
+			background-image:url("Ring.png");
+			width:100%;
+			height:20px;
+		}
+        
+        #card_text{
+            
+        }
+        
+        #card_comment{
+            font-style:italic;
+            font-size:0.9em;
+            padding:5px;
+        }
+        
+        #card_value{
+            background-image:url("Coins.png");
+            background-size: contain;
+            font-size:1.5em;
+            width:75px;
+            height:75px;
+            position:absolute;
+            bottom:0px;
+            right:20px;
+            text-align:center;
+        }
+        
+        #card_attack{
+            background-size: contain;
+            font-size:1.5em;
+            width:150px;
+            height:75px;
+            position:absolute;
+            bottom:0px;
+            left:20px;
+            text-align:center;
+            display:none;
+        }
+        
+        #card_attack img{
+            width:75px;
+            float:left;
+        }
+        
+        #card_attack_text{
+            width:75px;
+            float:left;
+        }
+        
+        #card_armor{
+            background-size: contain;
+            font-size:1.5em;
+            width:150px;
+            height:75px;
+            position:absolute;
+            bottom:5px;
+            left:20px;
+            text-align:center;
+            display:none;
+        }
+        
+        #card_armor img{
+            width:75px;
+            float:left;
+        }
+        
+        #card_armor_text{
+            width:75px;
+            float:left;
+        }
+        
+    </style>
+</html>
