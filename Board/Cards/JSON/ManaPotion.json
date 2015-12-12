@@ -1,6 +1,5 @@
 {"name":"Mana Potion",
-"text":"Regenerates all your Mana or that of a ally.
-(Can be used in combat)",
+"text":"Regenerates all your Mana or that of an ally.(Can be used in combat)",
 "text_size":"",
 "comment":"Refreshing and minty. Mages know whats good.",
 "comment_size":"",
@@ -8,8 +7,7 @@
 "attack":"",
 "armor":"",
 "name":"Mana Potion",
-"text":"Regenerates all your Mana or that of a ally.
-(Can be used in combat)",
+"text":"Regenerates all your Mana or that of an ally.(Can be used in combat)",
 "text_size":"",
 "comment":"Refreshing and minty. Mages know whats good.",
 "comment_size":"",

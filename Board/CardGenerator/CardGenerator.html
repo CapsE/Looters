@@ -11,6 +11,10 @@
             <input class="input" id="value" placeholder="value"/><br/>
             <input class="input" id="attack" placeholder="attack"/><br/>
             <input class="input" id="armor" placeholder="armor"/><br/>
+            Image<input type="checkbox" id="checkImage" name="Image" value="Image" checked=true onchange="toggleVis(event)"/>
+            Text<input type="checkbox" id="checkText" name="Text" value="Text"  checked=true onchange="toggleVis(event)"/><br/>
+            Icons<input type="checkbox" id="checkIcon" name="Icon" value="Icon"  checked=true onchange="toggleVis(event)"/><br/>
+            
             <button onclick="make()">Make</button>
             <button onclick="save()">Save</button>
         </div>
@@ -42,6 +46,45 @@
         </div>
     </body>
     <script>
+    
+        function toggleVis(e){
+          var checkImage = document.getElementById("checkImage");
+          var image = document.getElementById("card_img");
+          var text = document.getElementById("center");
+          var checkText = document.getElementById("checkText");
+          var spacer =  document.getElementById("spacer");
+          var checkIcon =  document.getElementById("checkIcon");
+          var icon =  document.getElementById("bottom");
+          var center =  document.getElementById("center");
+          
+          if(checkImage.checked){
+            image.style.display = "inline-block";
+            center.style.height = "255px";
+          }else{
+            image.style.display = "none";
+            spacer.style.display = "none";
+            center.style.height = "calc(100% - 80px)";
+          }
+          if(checkText.checked){
+            text.style.display = "block";
+          }else{
+            text.style.display = "none";
+            spacer.style.display = "none";
+            image.style.height = "auto";
+            image.style.width = "98%";
+          }
+          if(checkText.checked && checkImage.checked){
+            spacer.style.display = "inline-block";
+            image.height = "350px";
+          }
+          if(checkIcon.checked){
+            icon.style.display = "block";
+          }else{
+            icon.style.display = "none";
+          }
+          
+        }
+        
         function make(){
             var inName = document.getElementById("name").value;
             var inImg = document.getElementById("img").value;
@@ -144,7 +187,7 @@
             border:solid;
 			border-radius:8px;
             width:460px;
-            height:700px;
+            height:735px;
             position:absolute;
             left:50%;
 			background-image:url("Background.png");
@@ -157,7 +200,7 @@
         
         #center{
             background-color:white;
-			height:240px;
+			height:255px;
 			overflow:hidden;
         }
         
@@ -172,8 +215,8 @@
         }
         
         #card_img{
-            width:300px;
-            height:300px;
+            width:330px;
+            height:330px;
             display:inline-block;
         }
 		
